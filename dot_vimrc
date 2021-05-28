@@ -1,0 +1,121 @@
+"---------"
+" General "
+"---------"
+
+" Add line numbbebrs.
+set nu
+
+" Disable older Vi.
+set nocompatible
+
+" Auto read when a file is changed from the outside.
+set autoread
+
+" Auto write when a file is being built;
+set autowrite
+
+" Hide mode status info.
+set noshowmode
+
+" Set true terminal colors.
+set termguicolors
+
+"---------"
+" Plugins "
+"---------"
+" Install vim-plug, if needed.
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/plugged')
+
+" General plugins.
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } 
+Plug 'vim-airline/vim-airline'
+Plug 'ayu-theme/ayu-vim'
+Plug 'cespare/vim-toml'
+
+" Development plugins.
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
+Plug 'SirVer/ultisnips'
+
+call plug#end()
+
+" Open file manager on enter.
+autocmd VimEnter * NERDTree
+
+"----------"
+" Keybinds "
+"----------"
+
+" Prevent arrows usage in all modes.
+noremap <up> <nop>
+noremap <down> <nop>
+noremap <left> <nop>
+noremap <right> <nop>
+
+" Better buffer navigation.
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+"----"
+" UI "
+"----"
+
+" Width of tab character.
+set tabstop=8
+set shiftwidth=8
+set softtabstop=8
+
+" Theme
+syntax enable
+colorscheme ayu
+let ayucolor="dark"
+
+" Show options when pressing tab in command-line.
+set wildmenu
+
+" Highlight current line.
+set cursorline
+
+" Add separator break.
+set colorcolumn=79
+
+" Don't automatically wrap lines.
+set nowrap
+
+" Leave 15 lines above and below when scrolling.
+set scrolloff=15
+
+" Show command matches.
+set incsearch
+
+" Display TAB as characters.
+set list
+set listchars=tab:>-
+
+"-------"
+" Files "
+"-------"
+
+" Disable file backups.
+set nobackup
+
+" Disable swap files creation.
+set noswapfile
+
+" Make vim store the undo history in a file.
+set undofile
+
+" Create undo directory.
+if !isdirectory($HOME.'/.vim/undo')
+	call mkdir($HOME.'/.vim/undo', 'p', 0700)
+endif
+
+" Set undo file location.
+set undodir=~/.vim/undo
