@@ -1,0 +1,18 @@
+#!/bin/bash
+
+pkgs=(
+	vim				# editor
+	i3-gaps				# tilling window manager
+	polybar				# status bar
+	rofi				# menu
+	alacritty			# terminal emulator
+	nnn				# terminal file manater
+	adobe-source-doe-pro-fonts	# main fonts
+	udiskie				# disk automounter
+	ttf-font-awesome		# fake icons
+	pulseaudio			# sound server
+	pulseaudio-alsa			# sound server integration with alsa
+	pavucontrol			# volume control
+)
+
+yay -Syu --needed "${pkgs[@]}"
