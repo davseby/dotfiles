@@ -6,8 +6,8 @@ pkgs=(
 	polybar				# status bar
 	rofi				# menu
 	alacritty			# terminal emulator
-	nnn				# terminal file manater
-	adobe-source-doe-pro-fonts	# main fonts
+	nnn				# terminal file manager
+	adobe-source-code-pro-fonts	# main fonts
 	udiskie				# disk automounter
 	ttf-font-awesome		# fake icons
 	pulseaudio			# sound server

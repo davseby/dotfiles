@@ -47,6 +47,39 @@ call plug#end()
 " Open file manager on enter.
 autocmd VimEnter * NERDTree
 
+"--------"
+" vim-go "
+"--------"
+
+" Show the name of each failed test before the errors and logs output by the
+" test
+let g:go_test_show_name = 1
+
+" Increase default timeout for the tests.
+let g:go_test_timeout = '2m'
+
+" Show type info for the word under the cursor.
+let g:go_auto_type_info = 1
+
+" Highlight all uses of the indetifier under the cursor.
+let g:go_auto_sameids = 1
+
+" Run extended linter on save.
+let g:go_metalinter_autosave = 1
+let g:go_metalinter_command = "golangci-lint"
+
+" Highlighting of various syntax objects.
+let g:go_highlight_operators = 1
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_generate_tags = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_function_parameters = 1
+let g:go_highlight_variable_declarations = 1
+let g:go_highlight_variable_assignments = 1
+
 "----------"
 " Keybinds "
 "----------"
