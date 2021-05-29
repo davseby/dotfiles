@@ -11,6 +11,8 @@ alias ls='ls -la --color=auto'
 # Set vim as default editor.
 export EDITOR=vim
 export VISUAL=vim
+export GOPATH=$HOME/go
+PATH=$PATH:$GOPATH/bin
 
 # Enable colors.
 export TERM=xterm-256color
