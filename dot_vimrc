@@ -1,17 +1,22 @@
-"---------"
-" General "
-"---------"
+"-----------"
+"           "
+"  General  "
+"           "
+"-----------"
 
-" Add line numbbebrs.
-set nu
+" Leader key.
+let mapleader = ";"
 
 " Disable older Vi.
 set nocompatible
 
+" Maximum cached history.
+set history=100
+
 " Auto read when a file is changed from the outside.
 set autoread
 
-" Auto write when a file is being built;
+" Auto write when a file is being built.
 set autowrite
 
 " Hide mode status info.
@@ -20,9 +25,12 @@ set noshowmode
 " Set true terminal colors.
 set termguicolors
 
-"---------"
-" Plugins "
-"---------"
+"-----------"
+"           "
+"  Plugins  "
+"           "
+"-----------"
+
 " Install vim-plug, if needed.
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -44,8 +52,15 @@ Plug 'SirVer/ultisnips'
 
 call plug#end()
 
+"----------"
+" NERDTree "
+"----------"
+
 " Open file manager on enter.
 autocmd VimEnter * NERDTree
+
+" Open / close file NERD Tree.
+nnoremap <leader>o :NERDTreeToggle<cr>
 
 "--------"
 " vim-go "
@@ -71,8 +86,6 @@ let g:go_metalinter_command = "golangci-lint"
 " Highlighting of various syntax objects.
 let g:go_highlight_operators = 1
 let g:go_highlight_types = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_functions = 1
 let g:go_highlight_generate_tags = 1
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_function_calls = 1
@@ -80,9 +93,27 @@ let g:go_highlight_function_parameters = 1
 let g:go_highlight_variable_declarations = 1
 let g:go_highlight_variable_assignments = 1
 
-"----------"
-" Keybinds "
-"----------"
+augroup gobindings
+	autocmd! gobindings
+
+	" Run tests in selected package.
+	autocmd FileType go nmap <buffer> <leader>t <Plug>(go-test)
+
+	" Rename object under the cursor.
+	autocmd FileType go nmap <buffer> <leader>r <Plug>(go-rename)
+
+	" Toggle code coverage.
+	autocmd FileType go nmap <buffer> <leader>c <Plug><go-coverage-toggle>
+
+	" Run only the test that is under the cursor.
+	autocmd FileType go nmap <buffer> <leader>ft <Plug><go-test-func>
+augroup end
+
+"------------"
+"            "
+"  Keybinds  "
+"            "
+"------------"
 
 " Prevent arrows usage in all modes.
 noremap <up> <nop>
@@ -96,14 +127,22 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
-"----"
-" UI "
-"----"
+" Open new vertical buffer.
+nnoremap <leader>L :vsplit<cr>
+
+"------"
+"      "
+"  UI  "
+"      "
+"------"
 
 " Width of tab character.
 set tabstop=8
 set shiftwidth=8
 set softtabstop=8
+
+" Set fomratting.
+set formatoptions -=t
 
 " Theme
 syntax enable
@@ -115,6 +154,9 @@ set wildmenu
 
 " Highlight current line.
 set cursorline
+
+" Don't convert tabs to spaces.
+set noexpandtab
 
 " Add separator break.
 set colorcolumn=79
@@ -132,9 +174,14 @@ set incsearch
 set list
 set listchars=tab:>-
 
-"-------"
-" Files "
-"-------"
+" Display line numbers.
+set nu
+
+"---------"
+"         "
+"  Files  "
+"         "
+"---------"
 
 " Disable file backups.
 set nobackup
