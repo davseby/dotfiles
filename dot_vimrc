@@ -46,11 +46,43 @@ Plug 'vim-airline/vim-airline'
 Plug 'ayu-theme/ayu-vim'
 Plug 'cespare/vim-toml'
 
+" Git helpers. 
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'airblade/vim-gitgutter'
+
 " Development plugins.
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
 Plug 'SirVer/ultisnips'
 
 call plug#end()
+
+"------------"
+" Git Gutter "
+"------------"
+
+let g:gitgutter_sign_added = '+'
+let g:gitgutter_sign_modifed = '~'
+let g:gitgutter_sign_removed = '-'
+let g:gitgutter_sign_removed_first_line = '^'
+let g:gitgutter_sign_removed_above_and_below = '|'
+let g:gitgutter_sign_modified_removed = '*'
+
+"--------------"
+" NERDTree Git "
+"--------------"
+
+let g:NERDTreeGitStatusIndicatorMapCustom = {
+                \ 'Modified'  :'+',
+                \ 'Staged'    :'^',
+                \ 'Untracked' :'*',
+                \ 'Renamed'   :'~',
+                \ 'Unmerged'  :'=',
+                \ 'Deleted'   :'-',
+                \ 'Dirty'     :'+',
+                \ 'Ignored'   :'.',
+                \ 'Clean'     :'.',
+                \ 'Unknown'   :'?',
+                \ }
 
 "----------"
 " NERDTree "
@@ -105,10 +137,10 @@ augroup gobindings
 	autocmd FileType go nmap <buffer> <leader>r <Plug>(go-rename)
 
 	" Toggle code coverage.
-	autocmd FileType go nmap <buffer> <leader>c <Plug><go-coverage-toggle>
+	autocmd FileType go nmap <buffer> <leader>c <Plug>(go-coverage-toggle)
 
 	" Run only the test that is under the cursor.
-	autocmd FileType go nmap <buffer> <leader>ft <Plug><go-test-func>
+	autocmd FileType go nmap <buffer> <leader>ft <Plug>(go-test-func)
 augroup end
 
 "------------"
@@ -143,7 +175,7 @@ set tabstop=8
 set shiftwidth=8
 set softtabstop=8
 
-" Set fomratting.
+" Set formatting.
 set formatoptions -=t
 
 " Theme
@@ -178,6 +210,9 @@ set listchars=tab:>-
 
 " Display line numbers.
 set nu
+
+" Set encoding.
+set encoding=UTF-8
 
 "---------"
 "         "
