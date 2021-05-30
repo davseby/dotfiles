@@ -77,7 +77,9 @@ let g:go_test_timeout = '2m'
 let g:go_auto_type_info = 1
 
 " Highlight all uses of the indetifier under the cursor.
-let g:go_auto_sameids = 1
+" Currently the highlight color is the same as the background, once
+" that is resolved this should be set to 1.
+let g:go_auto_sameids = 0
 
 " Run extended linter on save.
 let g:go_metalinter_autosave = 1
@@ -128,7 +130,7 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 " Open new vertical buffer.
-nnoremap <leader>L :vsplit<cr>
+nnoremap <leader>l :vsplit<cr>
 
 "------"
 "      "
