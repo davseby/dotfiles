@@ -1,3 +1,8 @@
+[colors]
+background = #0a0e14
+background-focused = #1b2636
+underline-color = #ff6961
+
 [settings]
 screenchange-reload = true
 
@@ -5,31 +10,53 @@ screenchange-reload = true
 margin-top = 0
 margin-bottom = 0
 
-[bar/primary]
+[shared]
+background = ${colors.background}
 enable-ipc = true
 
-background = #0a0e14
-border-color = #0a0e14
-
 font-0 = Source Code Pro:style=Medium:size=10;2
-font-1 = "Font Awesome 5 Free:style=Regular;pixelsize=9;2"
-font-2 = "Font Awesome 5 Free:style=Solid;pixelsize=9;2"
-font-3 = "Font Awesome 5 Brands:style=Regular;pixelsize=9;2"
+font-1 = "Font Awesome 5 Free:style=Regular:pixelsize=11;2"
+font-2 = "Font Awesome 5 Free:style=Solid:pixelsize=11;2"
+font-3 = "Font Awesome 5 Brands:style=Regular:pixelsize=11;2"
 
-border-size = 5
 separator = |
 module-margin = 1
 
+[bar/primary]
+inherit = shared
+monitor = DP-2
+
 modules-left = i3
 modules-center = spotify
-modules-right = arch_updates date
+modules-right = hackspeed pulseaudio arch_updates date
+
+[bar/secondary]
+inherit = shared
+monitor = DP-0
+
+modules-left = i3
 
 [module/i3]
 type = internal/i3
+
 index-sort = true
 pin-workspaces = true
 strip-wsnumbers = true
-label-mode-padding = 1
+
+label-focused = %name%
+label-focused-padding = 1
+label-focused-background = ${colors.background-focused}
+label-focused-underline = ${colors.underline-color}
+
+label-unfocused = %name%
+label-unfocused-padding = 1
+
+label-urgent = %name%
+label-urgent-padding = 1
+
+label-visible = %name%
+label-visible-padding = 1
+label-visible-underline = ${colors.underline-color}
 
 [module/date]
 type = internal/date
@@ -38,10 +65,23 @@ date = %b %d %I:%M %p
 [module/arch_updates]
 type = custom/script
 exec = ~/.config/polybar/scripts/arch_updates
-interval = 300
+interval = 30 
 
 [module/spotify]
 type = custom/script
 format-prefix =  
 format = <label>
 exec = python /usr/bin/polybar-spotify -f ' {artist} - {song}'
+
+[module/pulseaudio]
+type = internal/pulseaudio
+sink = alsa_output.pci-0000_12_00.3.analog-stereo
+format-volume = <ramp-volume> <label-volume>
+click-right = pavucontrol
+label-muted =   0%
+ramp-volume-0 = 
+
+[module/hackspeed]
+type = custom/script
+exec = ~/.config/polybar/scripts/hackspeed
+tail = true 

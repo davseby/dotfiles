@@ -23,3 +23,10 @@ alias cp='cp -i'
 
 # Confirm before deletion.
 alias rm='rm -r'
+
+# Keyboard layout commands
+alias klt='setxkbmap -layout lt'
+alias kus='setxkbmap -layout us'
+
+# Wow, such nice
+eval "$(starship init bash)"

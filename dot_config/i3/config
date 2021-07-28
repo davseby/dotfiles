@@ -57,6 +57,7 @@ set $ws10 10
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id nm-applet
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+exec_always "setxkbmap -layout us"
 
 #-------------#
 # Keybindings #
