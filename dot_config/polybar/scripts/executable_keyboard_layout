@@ -1,0 +1,12 @@
+#!/bin/bash
+
+current_layout="$(setxkbmap -query | tail -n 1 | awk '{print $2}')"
+
+if [ $current_layout = 'us' ]; then
+	setxkbmap -layout lt
+	exit
+fi
+
+setxkbmap -layout us
+exit
+

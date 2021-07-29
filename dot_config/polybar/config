@@ -28,7 +28,7 @@ monitor = DP-2
 
 modules-left = i3
 modules-center = spotify
-modules-right = hackspeed pulseaudio arch_updates date
+modules-right = hackspeed pulseaudio arch_updates keyboard_layout date
 
 [bar/secondary]
 inherit = shared
@@ -85,3 +85,9 @@ ramp-volume-0 = 
 type = custom/script
 exec = ~/.config/polybar/scripts/hackspeed
 tail = true 
+
+[module/keyboard_layout]
+type = custom/script
+exec = "setxkbmap -query | tail -n 1 | awk '{print $2}' | tr [a-z] [A-Z]"
+click-left = ~/.config/polybar/scripts/keyboard_layout
+interval = 0
