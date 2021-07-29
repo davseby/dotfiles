@@ -28,7 +28,7 @@ monitor = DP-2
 
 modules-left = i3
 modules-center = spotify
-modules-right = hackspeed pulseaudio arch_updates keyboard_layout date
+modules-right = hackspeed memory cpu pulseaudio arch_updates keyboard_layout date
 
 [bar/secondary]
 inherit = shared
@@ -58,9 +58,17 @@ label-visible = %name%
 label-visible-padding = 1
 label-visible-underline = ${colors.underline-color}
 
+[module/cpu]
+type = internal/cpu
+label = %{F#ffb861}%{F-} %percentage%%
+
+[module/memory]
+type = internal/memory
+label = %{F#ff61a8}%{F-} %gb_used%/%gb_total%
+
 [module/date]
 type = internal/date
-date = %b %d %I:%M %p 
+date = %b %d %I:%M:%S %p 
 
 [module/arch_updates]
 type = custom/script
@@ -69,7 +77,7 @@ interval = 30
 
 [module/spotify]
 type = custom/script
-format-prefix =  
+format-prefix = %{F#61ff69}%{F-} 
 format = <label>
 exec = python /usr/bin/polybar-spotify -f ' {artist} - {song}'
 
