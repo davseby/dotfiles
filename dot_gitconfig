@@ -1,0 +1,19 @@
+[core]
+	pager = diff-so-fancy | less --tabs=4 -RFX
+
+[core "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
+
+[core "diff"]
+	meta = 11
+	frag = white bold
+	commit = cyan bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
+
+[diff-so-fancy]
+	markEmptyLines = false
