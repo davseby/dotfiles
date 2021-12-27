@@ -48,13 +48,13 @@ set $down j
 set $ws1 1
 set $ws2 2
 set $ws3 3
-set $ws4 4
+set $ws4 420
 set $ws5 5
 set $ws6 666
 set $ws7 7
 set $ws8 8
-set $ws9 9
-set $ws10 10
+set $ws9 999
+set $ws10 -1
 
 #-----------#
 # Autostart #
