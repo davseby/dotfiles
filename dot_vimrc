@@ -43,7 +43,7 @@ call plug#begin('~/.vim/plugged')
 " General plugins.
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } 
 Plug 'vim-airline/vim-airline'
-Plug 'ayu-theme/ayu-vim'
+Plug 'bluz71/vim-moonfly-colors'
 Plug 'cespare/vim-toml'
 
 " Git helpers. 
@@ -114,7 +114,7 @@ let g:go_auto_type_info = 1
 let g:go_auto_sameids = 0
 
 " Run extended linter on save.
-let g:go_metalinter_autosave = 1
+let g:go_metalinter_autosave = 0
 let g:go_metalinter_command = "golangci-lint"
 
 " Highlighting of various syntax objects.
@@ -180,8 +180,7 @@ set formatoptions -=t
 
 " Theme
 syntax enable
-colorscheme ayu
-let ayucolor="dark"
+colorscheme moonfly
 
 " Show options when pressing tab in command-line.
 set wildmenu

@@ -24,5 +24,8 @@ alias cp='cp -i'
 # Confirm before deletion.
 alias rm='rm -r'
 
-# Wow, such nice
+# Being nice to linux.
+alias please='sudo'
+
+# Pretty.
 eval "$(starship init bash)"

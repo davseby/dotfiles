@@ -1,7 +1,6 @@
 [colors]
-background = #0a0e14
-background-focused = #61a9ff
-underline-color = #ff6961
+background = #080808
+background-focused = #000000
 
 [settings]
 screenchange-reload = true
@@ -86,8 +85,8 @@ type = internal/pulseaudio
 sink = alsa_output.pci-0000_12_00.3.analog-stereo
 format-volume = <ramp-volume> <label-volume>
 click-right = pavucontrol
-label-muted =   0%
-ramp-volume-0 = 
+label-muted = %{F#ff6961}%{F-} 0%
+ramp-volume-0 = %{F#daf2fe}%{F-}
 
 [module/hackspeed]
 type = custom/script
