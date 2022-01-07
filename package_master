@@ -4,11 +4,12 @@ pkgs=(
 	vim				# editor
 	i3-gaps				# tilling window manager
 	polybar				# status bar
+	dunst				# notification manager
 	rofi				# menu
 	alacritty			# terminal emulator
-	nnn				# terminal file manager
 	adobe-source-code-pro-fonts	# main fonts
 	udiskie				# disk automounter
+	starship			# shell prompt
 	ttf-font-awesome		# fake icons
 	pulseaudio			# sound server
 	pulseaudio-alsa			# sound server integration with alsa

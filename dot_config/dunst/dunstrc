@@ -1,0 +1,21 @@
+[global]
+    follow = keyboard
+    frame_color = "#000000"
+    font = Source Code Pro 11
+    format = "<b>%s</b>\n%b\n%p"
+
+[urgency_low]
+    background = "#080808"
+    foreground = "#b2b2b2"
+    timeout = 10
+
+[urgency_normal]
+    background = "#080808"
+    foreground = "#b2b2b2"
+    timeout = 10
+
+[urgency_critical]
+    background = "#080808"
+    foreground = "#b2b2b2"
+    frame_color = "#ff5454"
+    timeout = 20
