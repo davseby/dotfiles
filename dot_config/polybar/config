@@ -14,9 +14,9 @@ background = ${colors.background}
 enable-ipc = true
 
 font-0 = Source Code Pro:style=Medium:size=10;2
-font-1 = "Font Awesome 5 Free:style=Regular:pixelsize=11;2"
-font-2 = "Font Awesome 5 Free:style=Solid:pixelsize=11;2"
-font-3 = "Font Awesome 5 Brands:style=Regular:pixelsize=11;2"
+font-1 = "Font Awesome 6 Free:style=Regular:pixelsize=11;2"
+font-2 = "Font Awesome 6 Free:style=Solid:pixelsize=11;2"
+font-3 = "Font Awesome 6 Brands:style=Regular:pixelsize=11;2"
 
 separator = |
 module-margin = 1
@@ -31,7 +31,7 @@ modules-right = hackspeed memory cpu pulseaudio arch_updates keyboard_layout dat
 
 [bar/secondary]
 inherit = shared
-monitor = DP-0
+monitor = ${env:MONITOR:}
 
 modules-left = i3
 

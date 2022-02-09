@@ -9,8 +9,10 @@ while pgrep -u $UID -x polybar >/dev/null; do sleep; done
 # Launch main polybar.
 polybar primary &
 
-# Launch secondary polybar if second monitor is active.
-if [ $(xrandr -q | grep " connected" | wc -l) -eq 2 ]
-then
-	polybar secondary &
-fi
+# Launch secondary polybar on all monitors that are not DP-2.
+for m in $(xrandr -q | grep " connected" | cut -d" " -f1); do
+	if [ $m != "DP-2" ]
+	then
+		MONITOR=$m polybar secondary &
+	fi
+done
