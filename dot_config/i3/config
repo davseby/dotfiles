@@ -25,7 +25,7 @@ client.urgent #ff6961 #ff6961 #ff6961 #ff6961
 client.unfocused #000000 #000000 #000000 #000000
 client.focused_inactive #000000 #000000 #000000 #000000
 
-assign [class="Steam" instance="Steam"] $ws5
+assign [class="keepassxc" instance="keepassxc"] $ws9
 assign [class="Spotify" instance="spotify"] $ws3
 assign [class="discord" instance="discord"] $ws2
 assign [class="TelegramDesktop" instance="telegram-desktop"] $ws2
@@ -60,10 +60,10 @@ set $ws10 -1
 # Autostart #
 #-----------#
 
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
-exec --no-startup-id nm-applet
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec_always "setxkbmap -layout us"
+exec --no-startup-id nm-applet
+exec --no-startup-id udiskie -Ant
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 #-------------#
 # Keybindings #

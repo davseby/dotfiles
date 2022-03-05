@@ -48,6 +48,7 @@ Plug 'cespare/vim-toml'
 
 " Git helpers. 
 Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
 " Development plugins.

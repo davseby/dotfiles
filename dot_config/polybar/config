@@ -28,6 +28,7 @@ monitor = DP-2
 modules-left = i3
 modules-center = spotify
 modules-right = hackspeed memory cpu pulseaudio arch_updates keyboard_layout date
+tray-position = right
 
 [bar/secondary]
 inherit = shared
