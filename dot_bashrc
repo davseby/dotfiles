@@ -27,5 +27,8 @@ alias rm='rm -r'
 # Being nice to linux.
 alias please='sudo'
 
+# Replacing old cat.
+alias cat='bat'
+
 # Pretty.
 eval "$(starship init bash)"
