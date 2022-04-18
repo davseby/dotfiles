@@ -45,6 +45,7 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'vim-airline/vim-airline'
 Plug 'bluz71/vim-moonfly-colors'
 Plug 'cespare/vim-toml'
+Plug 'junegunn/fzf.vim'
 
 " Git helpers. 
 Plug 'Xuyuanp/nerdtree-git-plugin'
