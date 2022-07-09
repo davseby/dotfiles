@@ -30,5 +30,8 @@ alias please='sudo'
 # Replacing old cat.
 alias cat='bat'
 
+# Replace vim with nvim.
+alias vim='nvim'
+
 # Pretty.
 eval "$(starship init bash)"

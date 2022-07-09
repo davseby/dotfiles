@@ -32,29 +32,36 @@ set termguicolors
 "-----------"
 
 " Install vim-plug, if needed.
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+if empty(glob('~/.nvim/autoload/plug.vim'))
+  silent !curl -fLo ~/.nvim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.nvim/plugged')
 
 " General plugins.
+Plug 'neovim/nvim-lspconfig'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } 
 Plug 'vim-airline/vim-airline'
 Plug 'bluz71/vim-moonfly-colors'
 Plug 'cespare/vim-toml'
 Plug 'junegunn/fzf.vim'
 
-" Git helpers. 
+" Git helpers.
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
 " Development plugins.
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'rust-lang/rust.vim'
 Plug 'SirVer/ultisnips'
+
+" Better autocomplete, signature
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'ray-x/lsp_signature.nvim'
 
 call plug#end()
 
@@ -107,12 +114,7 @@ let g:go_test_show_name = 1
 " Increase default timeout for the tests.
 let g:go_test_timeout = '2m'
 
-" Show type info for the word under the cursor.
-let g:go_auto_type_info = 1
-
 " Highlight all uses of the indetifier under the cursor.
-" Currently the highlight color is the same as the background, once
-" that is resolved this should be set to 1.
 let g:go_auto_sameids = 0
 
 " Run extended linter on save.
@@ -128,6 +130,9 @@ let g:go_highlight_function_calls = 1
 let g:go_highlight_function_parameters = 1
 let g:go_highlight_variable_declarations = 1
 let g:go_highlight_variable_assignments = 1
+
+" We only want to use vim-go for GoTest and etc.
+let g:go_pls_enabled = 0
 
 augroup gobindings
 	autocmd! gobindings
@@ -232,13 +237,84 @@ set nobackup
 " Disable swap files creation.
 set noswapfile
 
-" Make vim store the undo history in a file.
+" Make nvim store the undo history in a file.
 set undofile
 
 " Create undo directory.
-if !isdirectory($HOME.'/.vim/undo')
-	call mkdir($HOME.'/.vim/undo', 'p', 0700)
+if !isdirectory($HOME.'/.nvim/undo')
+	call mkdir($HOME.'/.nvim/undo', 'p', 0700)
 endif
 
 " Set undo file location.
-set undodir=~/.vim/undo
+set undodir=~/.nvim/undo
+
+" Lua.
+lua << EOF
+local nvim_lsp = require('lspconfig')
+
+local on_attach = function(client, bufnr)
+	local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+	local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+	buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+	local opts = { noremap=true, silent=true }
+
+	buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+	buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+	buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+	buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+	buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+	buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+	buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+	buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+end
+
+local cmp = require('cmp')
+cmp.setup{
+	mapping = {
+		['<CR>'] = cmp.mapping.confirm({ select = true }),
+		['<C-y>'] = cmp.config.disable,
+		["<C-n>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_next_item()
+			else
+				fallback() 
+			end
+		end, { "i", "s" }),
+		["<C-p>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_prev_item()
+			else
+				fallback()
+			end
+		end, { "i", "s" })
+	},
+	snippet = {
+		expand = function(args)
+			vim.fn["UltiSnips#Anon"](args.body)
+		end
+	},
+	sources = cmp.config.sources({
+		{ name = 'nvim_lsp' }, 
+		{ name = 'ultisnips' },
+	})
+}
+
+require('lsp_signature').setup({})
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
+nvim_lsp.vuels.setup{}
+
+nvim_lsp.gopls.setup{
+	on_attach = on_attach,
+	capabilities = capabilities,
+	settings = {
+		gopls = {
+			buildFlags = { '-tags='}
+		}
+	}
+}
+EOF
