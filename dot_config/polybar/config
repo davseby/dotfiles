@@ -1,6 +1,10 @@
 [colors]
 background = #080808
 background-focused = #000000
+foreground = #b2b2b2
+underline-color = #ffffff
+border-color = #101924
+focused = #0c131b
 
 [settings]
 screenchange-reload = true
@@ -13,58 +17,62 @@ margin-bottom = 0
 background = ${colors.background}
 enable-ipc = true
 
-font-0 = Source Code Pro:style=Medium:size=10;2
-font-1 = "Font Awesome 6 Free:style=Regular:pixelsize=11;2"
-font-2 = "Font Awesome 6 Free:style=Solid:pixelsize=11;2"
-font-3 = "Font Awesome 6 Brands:style=Regular:pixelsize=11;2"
+font-0 = Hack Nerd Font:style=Regular:size=10;3
 
-separator = |
-module-margin = 1
+module-margin-right = 1
+border-bottom-size = 1
+border-color = ${colors.border-color}
 
 [bar/primary]
 inherit = shared
 monitor = DP-2
 
 modules-left = i3
-modules-center = spotify
-modules-right = hackspeed memory cpu pulseaudio arch_updates keyboard_layout date
+modules-center = date spotify 
+modules-right = arch_updates pulseaudio keyboard_layout
 tray-position = right
 
 [bar/secondary]
 inherit = shared
 monitor = ${env:MONITOR:}
 
+modules-center = date spotify
 modules-left = i3
 
 [module/i3]
 type = internal/i3
 
-index-sort = true
 pin-workspaces = true
 strip-wsnumbers = true
 
-label-focused = %name%
+label-focused = %icon%
 label-focused-padding = 1
-label-focused-background = ${colors.background-focused}
-label-focused-underline = ${colors.underline-color}
+label-focused-foreground = ${colors.foreground}
+label-focused-background = ${colors.focused}
+label-focused-underline = ${colors.separator-color}
 
-label-unfocused = %name%
+label-unfocused = %icon%
 label-unfocused-padding = 1
 
-label-urgent = %name%
+label-urgent = %icon%
 label-urgent-padding = 1
 
-label-visible = %name%
+label-visible = %icon%
 label-visible-padding = 1
-label-visible-underline = ${colors.underline-color}
+label-visible-background = ${colors.focused}
+label-visible-underline = ${colors.separator-color}
 
-[module/cpu]
-type = internal/cpu
-label = %{F#ffb861}%{F-} %percentage%%
-
-[module/memory]
-type = internal/memory
-label = %{F#ff61a8}%{F-} %gb_used%/%gb_total%
+ws-icon-0 = 0;%{F#80a0ff}0 %{F-}
+ws-icon-1 = 1;%{F#a47af0}1 %{F-}
+ws-icon-2 = 2;%{F#a47af0}2 %{F-}
+ws-icon-3 = 3;%{F#80a0ff}3 %{F-}
+ws-icon-4 = 4;%{F#ffffff}4 %{F-}
+ws-icon-5 = 5;%{F#61ff69}5 %{F-}
+ws-icon-6 = 6;%{F#80a0ff}6 %{F-}
+ws-icon-7 = 7;%{F#80a0ff}7 %{F-}
+ws-icon-8 = 8;%{F#80a0ff}8 %{F-}
+ws-icon-9 = 9;%{F#80a0ff}9 %{F-}
+format = <label-state> <label-mode>
 
 [module/date]
 type = internal/date
@@ -77,22 +85,21 @@ interval = 30
 
 [module/spotify]
 type = custom/script
-format-prefix = %{F#61ff69}%{F-} 
+format-prefix = %{F#61ff69}%{F-}
 format = <label>
-exec = python /usr/bin/polybar-spotify -f ' {artist} - {song}'
+label = %{F#61ff69}%output%%{F-}
+exec = "python /usr/bin/polybar-spotify -f ' {artist} - {song}'"
 
 [module/pulseaudio]
 type = internal/pulseaudio
 sink = alsa_output.pci-0000_12_00.3.analog-stereo
-format-volume = <ramp-volume> <label-volume>
+format-volume = <label-volume> <ramp-volume>
 click-right = pavucontrol
-label-muted = %{F#ff6961}%{F-} 0%
-ramp-volume-0 = %{F#daf2fe}%{F-}
-
-[module/hackspeed]
-type = custom/script
-exec = ~/.config/polybar/scripts/hackspeed
-tail = true 
+use-ui-max = false
+label-muted = %{F#ff6961}0% 婢%{F-}
+ramp-volume-0 = %{F#daf2fe}奄%{F-}
+ramp-volume-1 = %{F#daf2fe}奔%{F-}
+ramp-volume-2 = %{F#daf2fe}墳%{F-}
 
 [module/keyboard_layout]
 type = custom/script

@@ -5,7 +5,7 @@ updates_aur="$(yay -Qum 2> /dev/null | wc -l)"
 updates=$(("$updates_arch" + "$updates_aur"))
 
 if (( "$updates" > 0 )); then
-	echo "%{F#ff6961}%{F-} Official: $updates_arch AUR: $updates_aur"
+	echo "%{F#ff6961}$updates_arch %{F-} %{F#61f7ff}$updates_aur %{F-}"
 	exit
 fi
 
