@@ -42,66 +42,34 @@ call plug#begin('~/.nvim/plugged')
 
 " General plugins.
 Plug 'neovim/nvim-lspconfig'
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } 
+Plug 'kyazdani42/nvim-tree.lua'
 Plug 'vim-airline/vim-airline'
 Plug 'bluz71/vim-moonfly-colors'
 Plug 'cespare/vim-toml'
 Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-sleuth'
 
-" Git helpers.
-Plug 'Xuyuanp/nerdtree-git-plugin'
+" Integration with Git.
 Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
+Plug 'lewis6991/gitsigns.nvim'
 
 " Development plugins.
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'rust-lang/rust.vim'
 Plug 'SirVer/ultisnips'
 
-" Better autocomplete, signature
+" Autocompletion
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'ray-x/lsp_signature.nvim'
 
 call plug#end()
 
-"------------"
-" Git Gutter "
-"------------"
-
-let g:gitgutter_sign_added = '+'
-let g:gitgutter_sign_modifed = '~'
-let g:gitgutter_sign_removed = '-'
-let g:gitgutter_sign_removed_first_line = '^'
-let g:gitgutter_sign_removed_above_and_below = '|'
-let g:gitgutter_sign_modified_removed = '*'
-
-"--------------"
-" NERDTree Git "
-"--------------"
-
-let g:NERDTreeGitStatusIndicatorMapCustom = {
-                \ 'Modified'  :'+',
-                \ 'Staged'    :'^',
-                \ 'Untracked' :'*',
-                \ 'Renamed'   :'~',
-                \ 'Unmerged'  :'=',
-                \ 'Deleted'   :'-',
-                \ 'Dirty'     :'+',
-                \ 'Ignored'   :'.',
-                \ 'Clean'     :'.',
-                \ 'Unknown'   :'?',
-                \ }
-
 "----------"
-" NERDTree "
+" NVIMTree "
 "----------"
 
-" Open file manager on enter.
-autocmd VimEnter * NERDTree
-
-" Open / close file NERD Tree.
-nnoremap <leader>o :NERDTreeToggle<cr>
+" Open / close file NVIM Tree.
+nnoremap <leader>o :NvimTreeToggle<cr>
 
 "--------"
 " vim-go "
@@ -133,6 +101,7 @@ let g:go_highlight_variable_assignments = 1
 
 " We only want to use vim-go for GoTest and etc.
 let g:go_pls_enabled = 0
+let g:go_def_mapping_enabled=0
 
 augroup gobindings
 	autocmd! gobindings
@@ -252,24 +221,6 @@ set undodir=~/.nvim/undo
 lua << EOF
 local nvim_lsp = require('lspconfig')
 
-local on_attach = function(client, bufnr)
-	local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-	local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-	buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-	local opts = { noremap=true, silent=true }
-
-	buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-	buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-	buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-	buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-	buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-	buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-	buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-	buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-end
-
 local cmp = require('cmp')
 cmp.setup{
 	mapping = {
@@ -309,12 +260,118 @@ capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 nvim_lsp.vuels.setup{}
 
 nvim_lsp.gopls.setup{
-	on_attach = on_attach,
+	on_attach = function(client, bufnr)
+		local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+		local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+	
+		buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+	
+		local opts = { noremap=true, silent=true }
+	
+		buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+		buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+		buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+		buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+		buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+		buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+		buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+		buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+	end,
 	capabilities = capabilities,
 	settings = {
 		gopls = {
 			buildFlags = { '-tags='}
 		}
 	}
+}
+
+require("nvim-tree").setup({
+	open_on_setup = true,
+	open_on_setup_file = true,
+	renderer = {
+		icons = {
+			padding = " ",
+			git_placement = "before",
+			glyphs = {
+				default = "",
+				symlink = "",
+				git = {
+					unstaged = " +",
+					staged = " ^",
+					unmerged = " =",
+					renamed = " ~",
+					untracked = " *",
+					deleted = " -"
+				},
+				folder = {
+					arrow_closed = "",
+					arrow_open = "",
+					default = "",
+					open = "",
+					empty = "",
+					empty_open = "",
+					symlink = "",
+					symlink_open = ""
+				}
+			}
+		}
+	}
+})
+
+require('gitsigns').setup {
+	signs = {
+		add = {
+			hl = 'GitSignsAdd',
+			text = '│',
+			numhl='GitSignsAddNr',
+			linehl='GitSignsAddLn'
+		},
+		change = {
+			hl = 'GitSignsChange',
+			text = '│',
+			numhl ='GitSignsChangeNr',
+			linehl ='GitSignsChangeLn'
+		},
+		delete = {
+			hl = 'GitSignsDelete',
+			text = '_',
+			numhl='GitSignsDeleteNr',
+			linehl='GitSignsDeleteLn'
+		},
+		topdelete = {
+			hl = 'GitSignsDelete',
+			text = '‾',
+			numhl='GitSignsDeleteNr',
+			linehl='GitSignsDeleteLn'
+		},
+		changedelete = {
+			hl = 'GitSignsChange',
+			text = '~',
+			numhl='GitSignsChangeNr',
+			linehl='GitSignsChangeLn'
+		},
+	},
+	signcolumn = true,
+	numhl      = true,
+	word_diff  = true,
+	current_line_blame_opts = {
+		virt_text = true,
+		virt_text_pos = 'eol',
+		delay = 100,
+		ignore_whitespace = false,
+	},
+	current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>',
+	on_attach = function(bufnr)
+		local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+
+		local opts = { noremap=true, silent=true }
+
+		buf_set_keymap('n', ']c', '<cmd>Gitsigns next_hunk<CR>', opts)
+		buf_set_keymap('n', '[c', '<cmd>Gitsigns prev_hunk<CR>', opts)
+		buf_set_keymap('n', '<leader>hr', '<cmd>Gitsigns reset_hunk<CR>', opts)
+		buf_set_keymap('n', '<leader>hb', '<cmd>Gitsigns blame_line<CR>', opts)
+		buf_set_keymap('n', '<leader>hd', '<cmd>Gitsigns diffthis<CR>', opts)
+		buf_set_keymap('n', '<leader>tb', '<cmd>Gitsigns toggle_current_line_blame<CR>', opts)
+	end
 }
 EOF
